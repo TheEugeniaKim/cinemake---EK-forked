@@ -10,8 +10,11 @@ I used this project to help me learn to create a Ruby on Rails App.
 
 Currently the app looks like this: 
 
+![](cinemake landing.png)
 
-However, going forward I would ask you to please ignore the erb view files as this app is going to be . 
+![](cinemake movie show.png)
+
+However, going forward I would ask you to please ignore the erb view files as this app is going to be reworked with a new front end in the future. 
 
 ## Ongoing Plans for Cinemake 
 
