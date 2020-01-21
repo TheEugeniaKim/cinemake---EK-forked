@@ -1,0 +1,19 @@
+<title>Login</title>
+</head>
+<body>    
+    <div id="welcome_logo" ><img id="big_logo" src="/cinemake.png"></div>
+    <% if flash[:message] %>
+        <%= flash[:message] %>
+    <% end %>
+    
+    <h5>
+    <%= form_with url: login_path, local: true, method: :post do |form| %>
+        <%= form.label :username %>
+        <%= form.text_field :username %><br>
+        <%= form.label :password %>
+        <%= form.password_field :password %><br>
+        <%= form.submit "Log In" %>
+    <% end %>
+    </h5>
+    <br>
+    <h5>Don't Have an account? <%=link_to "Sign Up", signup_path%></h5>

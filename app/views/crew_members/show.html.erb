@@ -1,0 +1,45 @@
+<h1><%= @crew_member.name %></h1>
+    <% if @crew_member.image %>
+        <div class="flex-container">
+            <% if @crew_member.image == ""%>
+                <img src="https://www.durst-group.com/media/news/koenigbauer2019/30022-006-w800.jpg" class="profile_image">
+            <% else %>
+                <img src="https://image.tmdb.org/t/p/original/<%=@crew_member.image%>" class="profile_image">
+            <% end %>
+        </div>
+    <% end %>
+    <br/>
+    <br/>
+    <div class = "post"><% if @crew_member.crew_member_type %>
+        Role: <%="#{@crew_member.crew_member_type} | " %>
+    <% end %>
+    <% if @crew_member.birthday %>
+        Birthday: <%="#{@crew_member.birthday} | " %>
+    <% end %>
+    <% if @crew_member.gender_id %>
+        <% if @crew_member.gender_id == 2 %>
+            <%= "Gender: Male | "%>
+        <% elsif @crew_member.gender_id == 1 %>
+            <%= "Gender: Female | "%>
+        <% end %>    
+    <% end %><br><br>
+    <%=form_with model: @crew_member, url: create_crew_members_path, method: :post do |f| %>
+        <%=f.hidden_field :id, :value => @crew_member.id %>
+        <%=f.hidden_field :birthday, :value => @crew_member.birthday %>
+        <%=f.hidden_field :gender_id, :value => @crew_member.gender_id %>
+        <%=f.hidden_field :place_of_birth, :value => @crew_member.place_of_birth %>
+        <%=f.hidden_field :bio, :value => @crew_member.bio %>
+        <%=f.hidden_field :name, :value => @crew_member.name %>
+        <%=f.hidden_field :crew_member_type, :value => @crew_member.crew_member_type %>
+        <%=f.hidden_field :image, :value => @crew_member.image %>
+        <%=f.submit "Hire" %>
+    <% end %>
+    <br/>
+    <hr class="hr">
+    <% if @crew_member.bio %>
+        <%=@crew_member.bio %>
+    <% end %>
+    </div><br>
+
+<hr class="hr">
+     

@@ -1,0 +1,147 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+textarea{ 
+    resize: none;
+}
+img{ 
+    object-fit: cover
+}
+
+h1  {color: white;
+    text-align: center;}
+
+h2  {
+    color: white
+}
+
+h3  {
+    color: white
+}
+
+h4  {
+    color: white
+}
+
+h5  {
+    color: white
+}
+
+h6  {
+    color: white
+}
+p    {color: white;}
+
+a:link, a:visited{
+    color: rgb(13, 128, 13);
+    }
+    
+    a:hover, a:active {
+      color: rgb(107, 29, 170);
+    }
+
+.hr{
+    border-color: white
+}
+
+.hr2{
+    border-color: white;
+    margin-left: 90px;
+    margin-right: 90px;
+}
+
+.hr3{
+    border-color: white;
+    margin-right: 850px;
+}
+
+.card-text{
+    color: black
+}
+
+.card-title{
+    color: black;
+}
+
+#welcome_page{
+    background-color: black
+}
+
+ #welcome_logo{
+     display: flex;
+     justify-content: center;
+     align-content: space-around
+ }
+
+ #welcome_buttons{
+     display: flex;
+     flex-direction: row;
+     justify-content: center
+ }
+
+ .person_search{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+ }
+
+ .card{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: #f1f1f1;
+        width: 100px;
+        text-align: center;
+ }
+
+ .card-text{
+     color: black;
+ }
+
+ .flex-container{
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    flex-direction: row;
+ }
+
+ .post-form{
+     margin-left: 120px;
+ }
+
+ .post{
+    margin-left: 90px;
+    margin-right: 90px;
+}
+
+.text-center {
+    text-align: center;
+    margin: auto 0;
+    width: 100vw;
+}
+
+.profile_image{
+    display: flex;
+    justify-content: center;
+    max-width: 600px;
+    max-height: 600px;
+}
+
+.profile_options{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}

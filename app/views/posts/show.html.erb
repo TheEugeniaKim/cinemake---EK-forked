@@ -1,0 +1,19 @@
+<br><br>
+<div class="post"><h3><%= @post.title %></h3>
+</h4>
+    <% if @post.movie_id %>
+    <%= link_to "#{@post.movie.name}", movie_path(@post.movie) %>
+    | By:
+    <%= link_to "#{@post.director.name}", director_path(@post.director) %>
+    <%= "| Created #{@post.created_at.asctime[0..15]}" %>
+    <% else %>
+        <%= "By: #{@post.director.name} | Created #{@post.created_at.asctime[0..15]}" %>
+    <% end %>
+</h4>
+<br><hr class="hr">
+    <p>
+    <%= simple_format(@post.body) %>
+    </p>
+<p><%= link_to "More by #{@post.director.name}", director_posts_path(@post.director)%></p>
+</div>
+   

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  actor_id: 1
+  movie_id: 1
+  wage: 1
+  hire_date: MyString
+
+two:
+  actor_id: 1
+  movie_id: 1
+  wage: 1
+  hire_date: MyString

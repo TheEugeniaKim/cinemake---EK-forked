@@ -1,0 +1,32 @@
+<body>
+    <div id="welcome_logo" ><img id="big_logo" src="/cinemake.png"></div>
+    <% if @director.errors.any? %>
+    <ul>
+        <% @director.errors.full_messages.each do |error| %>
+            <li> <%= error %></li>
+        <% end %>
+    </ul>    
+    <%end%>
+
+<h5><%= form_with model: @director, url: directors_path, method: :post do |form| %>
+            
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+    <%= form.label :age %>
+    <%= form.number_field :age %><br><br>
+    <%= form.label :nationality %>
+    <%= form.country_select :nationality, ['United States'] %><br><br>
+    <%= form.label :email%>
+    <%= form.text_field :email%><br><br>
+    <%= form.label :image, "Profile Image URL"%>
+    <%= form.text_field :image%><br><br><br><br><br>
+    <%= form.label :username %>
+    <%= form.text_field :username %><br><br>
+    <%= form.label :password %>
+    <%= form.password_field :password %><br><br>
+    <!-- <%= form.label :password_digest_confirmation, "Confirm Password" %> -->
+    <!-- <%= form.password_field :password_confirmation %><br><br> -->
+    <%= form.submit "Create Account" %>
+
+<% end %> </h5>
+   

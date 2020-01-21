@@ -1,0 +1,20 @@
+<h2>Pending Friend Requests</h2>
+<hr class="hr2">
+    <%if @director.inbound_pending_requests.empty? %>
+        <p>You have no pending requests</p>
+    <% else %>
+        <div class="person_search"><% @director.inbound_pending_requests.each do |friend| %>
+        <div class="card" style="width: 18rem;">
+            <img src="<%=friend.friender.image%>" class="card-img-top" alt="...">
+            <div class="card-body">
+            <h5 class="card-title"><%= link_to "#{friend.friender.name}", director_path(friend.friender) %></h5>
+            <p class="card-text"><%= form_with model: friend, url: friends_path, method: :patch, local: true do |f| %>
+                <%= f.hidden_field :id, :value => friend.id %>
+                <%= f.hidden_field :status, :value => 'accepted' %>
+                <%= f.submit "Accept"%>
+            <% end %></p>
+    </div>
+    </div>
+        <% end %></div>
+    <% end %>
+        

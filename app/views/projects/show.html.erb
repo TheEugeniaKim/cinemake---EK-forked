@@ -1,0 +1,51 @@
+<% user = session[:user] %>
+
+<h1><%= @project.name %></h1>
+
+<p><%= @project.description %></p>
+
+<p><%= "Start: #{@project.start_date.asctime[0..9]}, Finish: #{@project.end_date.asctime[0..9]}" %></p>
+<p>Budget: $<%=@project.budget%>
+<% if @project.movie.directors.any?{|director| director.id == user["id"]} %>
+    <%= form_with model: @project, url: projects_path, local: true, method: :patch do |f| %>
+        <%= f.hidden_field :id, :value => @project.id %>
+        <%= f.label :amount_spent, 'Amount Spent: ' %>
+        <%= f.number_field :amount_spent, step: 1 %>
+        <%= f.submit "Update"%>
+    <% end %>
+<% else %>
+    <%= ", Amount Spent: $#{@project.amount_spent}" %>
+<% end %></p>
+
+<p>Status: <%= @project.status %>
+<% if @project.movie.directors.any?{|director| director.id == user["id"]} %>
+    <% if @project.status == "Open" %>
+        <%= form_with model: @project, url: projects_path, local: true, method: :patch do |f| %>
+            <%= f.hidden_field :id, :value => @project.id %>
+            <%= f.hidden_field :status, :value => "Closed" %>
+            <%= f.submit "Mark as Closed"%>
+        <% end %>
+    <% elsif @project.status == "Closed" %>
+        <%= form_with model: @project, url: projects_path, local: true, method: :patch do |f| %>
+            <%= f.hidden_field :id, :value => @project.id %>
+            <%= f.hidden_field :status, :value => "Open" %>
+            <%= f.submit "Reopen Project"%>
+        <% end %>
+    <% end %></p>
+<% end %>
+
+<h3>Crew Involved:</h3>
+<% if @project.movie.directors.any?{|director| director.id == user["id"]} %>
+    <%= button_to "Add Crew", new_project_crew_member_path(@project), method: :get %>
+<% end %>
+<ul>
+<% if @project.pcm_directors %>
+    <% @project.pcm_directors.each do |pcm| %>
+        <li><%= "#{pcm.director.name} (Director): #{pcm.job}" %></li>
+    <% end %>
+<% end %>
+<% if @project.pcm_crew_members %>
+    <% @project.pcm_crew_members.each do |pcm| %>
+        <li><%= "#{pcm.crew_member.name} (#{pcm.crew_member.movie_role(@project.movie).name}): #{pcm.job}" %></li>
+    <% end %>
+<% end %>

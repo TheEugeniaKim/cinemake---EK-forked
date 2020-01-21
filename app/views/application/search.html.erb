@@ -1,0 +1,174 @@
+<br><br>
+<div class="post">
+<%= form_with url: search_path, local: true, method: 'get' do |f| %> 
+    <%= f.label "Search: " %>
+    <%= f.text_field :search, value: @search%>
+    <%= f.select :category, options_for_select(["Movies", "Directors", "Actors", "Writers"]), :selected => @category %>
+    <%= f.submit "Filter" %>
+<% end %>
+<hr class="hr3">
+<% if @search == "" %>
+<% else %>
+<h3>Search Results:</h3>
+<%if @category %>
+    <h3>"<%=@search%>" in <%=@category%></h3><br><br>
+    <hr class="hr">
+    <%if @category == "Movies"%>
+        <%if Movie.downcase_names.any?{|name| name.include?(@search.downcase)}%>
+            <% Movie.all.select{|movie|movie.name.downcase.include?(@search.downcase)}.each do |movie| %>
+                <div><h3><%= link_to "#{movie.name} (#{movie.release_year})", movie_path(movie) %></h3>
+                <p><%= "Directed by: #{movie.director_names.join(", ")}"%></p>
+                <p><%= movie.short_synopsis %></p></div><br>
+            <% end %>
+        <% else %>
+            No Results Found
+        <% end %>
+
+    <%elsif @category == "Directors"%>
+        <% if Director.names.any?{|name| name.downcase.include?(@search.downcase)} %>
+            <div class="person_search"><% Director.all.select{|director|director.name.downcase.include?(@search.downcase)}.each do |director| %>
+                <div class="card" style="width: 18rem;">
+                        <img src="<%=director.image%>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                        <h5 class="card-title"><%= link_to "#{director.name}", director_path(director) %></h5>
+                        <% if director.movies.empty? %>
+                            <p class="card-text">Ready to Start Making Movies</p>
+                        <% else %>
+                            <% r_movie = director.movies.sample %>
+                            <p class="card-text"><%= "Known for: #{r_movie.name} (#{r_movie.release_year})"%></p>
+                        <% end %>
+                        </div>
+                </div>
+            <% end %></div>
+        <% else %>
+            No Results Found
+        <% end %>
+
+    <%elsif @category == "Actors"%>
+    <% if CrewMember.actor_names.any?{|name| name.downcase.include?(@search.downcase)} %>
+    <div class="person_search"><% CrewMember.actors.select{|actor|actor.name.downcase.include?(@search.downcase)}.each do |actor| %>
+        <div class="card" style="width: 18rem;">
+                <% if actor.image == ""%>
+                    <img src="https://www.durst-group.com/media/news/koenigbauer2019/30022-006-w800.jpg" class="card-img-top" alt="..."">
+                <% else %>
+                    <img src="https://image.tmdb.org/t/p/original/<%=actor.image%>" class="card-img-top" alt="..."">
+                <% end %>
+                <div class="card-body">
+                <h5 class="card-title"><%= link_to "#{actor.name}", crew_member_path(actor) %></h5>
+                <% if actor.bio %>
+                    <p class="card-text"><%=actor.short_bio%></p>
+                <% else %>
+                    <p class="card-text">Professional Actor</p>
+                <% end %>
+                </div>
+            </div>
+            <% end %></div>
+        <% else %>
+            No Results Found
+        <% end %>
+
+    <%elsif @category == "Writers"%>
+    <% if CrewMember.writer_names.any?{|name| name.downcase.include?(@search.downcase)} %>
+    <div class="person_search"><% CrewMember.writers.select{|writer|writer.name.downcase.include?(@search.downcase)}.each do |writer| %>
+        <div class="card" style="width: 18rem;">
+                <% if writer.image == ""%>
+                    <img src="https://www.durst-group.com/media/news/koenigbauer2019/30022-006-w800.jpg" class="card-img-top" alt="..."">
+                 <% else %>
+                     <img src="https://image.tmdb.org/t/p/original/<%=writer.image%>" class="card-img-top" alt="..."">
+                 <% end %>
+                <div class="card-body">
+                <h5 class="card-title"><%= link_to "#{writer.name}", crew_member_path(writer) %></h5>
+                <% if writer.bio %>
+                    <p class="card-text"><%=writer.short_bio%></p>
+                <% else %>
+                    <p class="card-text">Professional Writer</p>
+                <% end %>
+                </div>
+            </div>
+            <% end %></div>
+        <% else %>
+            No Results Found
+        <% end %>
+
+    <%end%>
+
+
+
+<%else%>
+    <h3>"<%=@search%>"</h3>
+    <hr class="hr">
+    <%if Movie.downcase_names.any?{|name| name.include?(@search.downcase)} && @search != ""%>
+        <h4>Movies:</h4><br>
+        <% Movie.all.select{|movie|movie.name.downcase.include?(@search.downcase)}.each do |movie| %>
+            <div><h3><%= link_to "#{movie.name} (#{movie.release_year})", movie_path(movie) %></h3>
+            <p><%= "Directed by: #{movie.director_names.join(", ")}"%></p>
+            <p><%= movie.short_synopsis %></p></div><br>
+        <% end %>
+        <hr class="hr">
+    <%end%>
+    
+    <% if Director.names.any?{|name| name.downcase.include?(@search.downcase)} && @search != ""%>
+        <h4>Directors:</h4><br>
+        <div class="person_search"><% Director.all.select{|director|director.name.downcase.include?(@search.downcase)}.each do |director| %>
+            <div class="card" style="width: 18rem;">
+            <img src="<%=director.image%>" class="card-img-top" alt="...">
+            <div class="card-body">
+            <h5 class="card-title"><%= link_to "#{director.name}", director_path(director) %></h5>
+            <% if director.movies.empty? %>
+                <p class="card-text">Ready to Start Making Movies</p>
+            <% else %>
+                <% r_movie = director.movies.sample %>
+                <p class="card-text"><%= "Known for: #{r_movie.name} (#{r_movie.release_year})"%></p>
+            <% end %>
+            </div>
+            </div>
+        <% end %></div><br><hr class="hr"><br>
+    <% end %>
+    
+
+    <% if CrewMember.actor_names.any?{|name| name.downcase.include?(@search.downcase)} && @search != "" %>
+        <h4>Actors:</h4><br>
+        <div class="person_search"><% CrewMember.actors.select{|actor|actor.name.downcase.include?(@search.downcase)}.each do |actor| %>
+            <div class="card" style="width: 18rem;">
+                <% if actor.image == ""%>
+                    <img src="https://www.durst-group.com/media/news/koenigbauer2019/30022-006-w800.jpg" class="card-img-top" alt="..."">
+                <% else %>
+                    <img src="https://image.tmdb.org/t/p/original/<%=actor.image%>" class="card-img-top" alt="..."">
+                <% end %>
+            <div class="card-body">
+            <h5 class="card-title"><%= link_to "#{actor.name}", crew_member_path(actor) %></h5>
+            <% if actor.bio.empty? %>
+                <p class="card-text">Professional Actor</p>
+            <% else %>
+                <p class="card-text"><%=actor.short_bio%></p>
+            <% end %>
+            </div>
+            </div>
+        <% end %></div><br><hr class="hr"><br>
+    <% end %>
+
+    <% if CrewMember.writer_names.any?{|name| name.downcase.include?(@search.downcase)} && @search != "" %>
+        <h4>Writers:</h4><br>
+        <div class="person_search"><% CrewMember.writers.select{|writer|writer.name.downcase.include?(@search.downcase)}.each do |writer| %>
+            <div class="card" style="width: 18rem;">
+            <% if writer.image == ""%>
+                <img src="https://www.durst-group.com/media/news/koenigbauer2019/30022-006-w800.jpg" class="card-img-top" alt="..."">
+            <% else %>
+                <img src="https://image.tmdb.org/t/p/original/<%=writer.image%>" class="card-img-top" alt="..."">
+            <% end %>
+            <div class="card-body">
+            <h5 class="card-title"><%= link_to "#{writer.name}", crew_member_path(writer) %></h5>
+            <% if writer.bio.empty? %>
+                <p class="card-text">Professional Writer</p>
+            <% else %>
+                <p class="card-text"><%=writer.short_bio%></p>
+            <% end %>
+            </div>
+            </div>
+        <% end %></div><br><br>
+    <% end %>
+    <% if Movie.downcase_names.any?{|name| name.include?(@search.downcase)} == false && Director.names.any?{|name| name.downcase.include?(@search.downcase)} == false && CrewMember.actor_names.any?{|name| name.downcase.include?(@search.downcase)} == false && CrewMember.writer_names.any?{|name| name.downcase.include?(@search.downcase)} == false %>
+            No Results Found
+    <% end %>
+<%end%></div>
+<%end%>

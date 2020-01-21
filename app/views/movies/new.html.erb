@@ -1,0 +1,26 @@
+
+<h1>Make Your Movie</h1>
+
+<% if @movie.errors.any? %>
+    <ul>
+        <% @movie.errors.full_messages.each do |error| %>
+        <li><%= error %></li>
+        <% end %>
+    </ul>
+<% end %>
+<h5>
+<%= form_with model: @movie, url: movies_path, local: true, method: :post do |form| %>
+    <%= form.label :name, "Movie Name:" %>
+    <%= form.text_field :name, size: 35%><br><br>
+    <%= form.label :release_year, "Planned Release Year: "%>
+    <%= form.select :release_year, (Time.zone.now.year.to_i)..(Time.zone.now.year + 100).to_i %><br><br>
+    <%= form.label :synopsis, "Synopsis: "%>
+    <div><%= form.text_area :synopsis, cols: 50, rows: 10%></div><br>
+    <%= form.label :production_company, "Production Company" %>
+    <%= form.text_field :production_company %><br><br>
+    <%= form.label :language_id %>
+    <%= form.select :language_id, Language.all.map{|l| [l.name, l.id]} %><br><br>
+    <%= form.submit "Create Movie" %>
+<% end %>
+</h5>
+   

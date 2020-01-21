@@ -1,0 +1,14 @@
+<br>
+<h3 class="post-form">New Post</h3><br>
+<% user = Director.find(session["user"]["id"]) %>
+  <%= form_with model: @post, url: posts_path, local: true do |f| %>
+    <h4 class="post-form">
+    <%= f.hidden_field :director_id, value: user.id %>
+    <%= f.label :movie_id, 'Movie (optional): ' %>
+    <%= f.collection_select :movie_id, user.movies, :id, :name, include_blank: true %>
+    <%= f.text_field :title, placeholder: "Post Title" %>
+    <%= f.submit "Create Post" %><br>
+    <%= f.text_area :body, placeholder: "Write text here...", cols: 100, rows: 30 %></h4>
+  <% end %>
+ 
+

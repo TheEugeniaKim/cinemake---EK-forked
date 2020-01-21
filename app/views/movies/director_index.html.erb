@@ -1,0 +1,29 @@
+<title>New Director</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<% stylesheet_link_tag 'application', media: 'all', 'data-turbo-links-track-': 'reload' %>
+<link rel = "stylesheets"
+    type = "text/css"
+    href = "../assets/stylesheets/application.css" />
+
+<h1><%=@director.name%>'s Movies</h1>
+       
+<% if @director.id == session[:user]["id"] %>
+    <h5><%= button_to "Make a Movie", new_movie_path, method: :get %></h5><br><br> 
+<% end %>
+   
+<div class="flex-container">
+    <% unless @director.movies.empty? %>
+        <% @director.movies.each do |movie| %>
+            
+<div class="card" style="width: 18rem;">
+<div class="card-body">
+    <h5 class="card-title"><%="#{movie.name} (#{movie.release_year})"%></h5>
+        <p class="card-text"><%=movie.short_synopsis%></p>
+        <a href=<%= movie_path(movie) %> class="btn btn-primary"><%="#{movie.name} (#{movie.release_year})"%></a>
+</div>
+</div>
+    <% end %>
+</div>
+    <% else %>
+       This Director has no movies.
+    <% end %> 

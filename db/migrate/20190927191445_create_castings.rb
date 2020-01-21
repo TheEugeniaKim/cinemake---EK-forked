@@ -1,0 +1,12 @@
+class CreateCastings < ActiveRecord::Migration[6.0]
+  def change
+    create_table :castings do |t|
+      t.integer :actor_id
+      t.integer :movie_id
+      t.integer :wage
+      t.string :hire_date
+
+      t.timestamps
+    end
+  end
+end

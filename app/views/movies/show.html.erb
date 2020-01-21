@@ -1,0 +1,58 @@
+<br><br>
+<div class="post">
+<h3><%= "#{@movie.name} (#{@movie.release_year})" %></h3>
+<hr class="hr">
+    <h3>Cast and Crew</h3>
+
+    <h6>
+    Directors:
+    <% @movie.directors.each do |director|%>
+        <%= director.name %> 
+    <% end %> 
+    </h6>
+            
+    <% unless @movie.writers.empty? %>
+        <div>
+            Writers:
+            <% @movie.writers.each do |writer|%>
+                <%= "#{writer.name} (#{writer.movie_role(@movie).name})" %>
+            <% end %> 
+        </div>
+    <% end %>
+
+    <h6>    
+    <% unless @movie.stars.empty? %>
+         <div>Stars: 
+        <%= @movie.star_array.join(",  ") %></div>
+    <% end %>
+    </h6>
+    <% link_to "Full Cast and Crew", movie_crew_members_path(@movie) %>
+    <div>
+    <% if @movie.director_ids.include?(session[:user]["id"]) %>
+        <br>
+        <%= button_to "Search for new Cast and Crew Members", crew_members_search_path, method: :get %>
+        <br>
+    <% end %>
+    </div>
+    <br>
+    <hr class="hr3">
+    
+    <h4>Projects</h4>
+
+    <% if @movie.projects.any? %>
+        <% @movie.most_recent_three_projects.each do |project| %>
+            <div><h4><%= link_to "#{project.name}", project_path(project) %></h4>
+            <p>Status: <%= project.status %> Start: <%= project.start_date %> Finish: <%= project.end_date %></p>
+            <hr class="hr3"></div>
+        <% end %>
+        <%= link_to "Show More", movie_projects_path(@movie)%>
+    <% else %>
+        <p>This movie has no projects.
+            <% if @movie.director_ids.include?(session[:user]["id"]) %>
+                Projects are a great way to keep track of the stuff you need to get done for your movie, from buying props to filming scenes.<br>
+                <%= button_to "Add a New Project Now!", new_project_path(@movie), method: :get %>
+            <% end %></p>
+    <% end %></div>
+</div>
+</div>
+   

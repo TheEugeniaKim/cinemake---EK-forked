@@ -1,0 +1,38 @@
+<h1>All Projects</h1>
+<div class="post">
+<div class="simple-calendar"></div><%= month_calendar attribute: :start_date, end_attribute: :end_date, events: @director.projects do |date, projects| %>
+    <%= date.day %>
+       <% unless projects.empty? %>
+            <% projects.each do |project| %>
+            <div>
+                <%= link_to "#{project.name} (#{project.movie.name})", project_path(project), {:style=>'color:#DDDDDD;', :class => "css_class"} %>
+            </div>
+            <% end %>
+        <% end %>
+    <% end %></div>
+    <br><hr class="hr2">
+    <div class="post">
+    <% @director.movies.each do |movie| %>
+
+    <h3><%=link_to "#{movie.name}", movie_path(movie)%></h3><br>
+    <% if movie.projects.any? %>
+        <% if movie.director_ids.include?(session[:user]["id"]) %>
+            <%= button_to "Add a Project", new_project_path(movie), method: :get %><br>
+        <% end %>
+        <% movie.projects.each do |project| %>
+            <div><h4><%= link_to "#{project.name}", project_path(project) %></h4>
+            <p>Status: <%= project.status %> Start: <%= project.start_date.asctime[0..9] %> Finish: <%= project.end_date.asctime[0..9] %></p>
+            </div>
+    <% end %><hr class="hr3">
+
+    <% else %>
+        <p>This movie has no projects.
+            <% if movie.director_ids.include?(session[:user]["id"]) %>
+            Projects are a great way to keep track of the stuff you need to get done for your movie, from buying props to filming scenes.<br>
+            <%= button_to "Add a New Project Now!", new_project_path(movie), method: :get %>
+            <% end %></p>
+            <hr class="hr3">
+    <% end %>
+<% end %>
+</div>
+    

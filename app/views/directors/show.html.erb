@@ -1,0 +1,40 @@
+<% user = Director.find(session[:user]["id"]) %>
+    <div class="flex-container">
+        <img src=<%="#{@director.image}"%> class="profile_image" alt="Responsive image">
+    </div>
+<h2><%=@director.name%></h2><br>
+    <hr class="hr2">
+    <% if @director.id == user.id%>
+        <% if user.has_pending_friend_requests? %>
+        <h5>You have pending friend requests<br>
+            <%= button_to "Click Here to View", pending_friends_path, method: :get %></h5><br>
+        <% end %>
+    <% end %>
+    <div class="profile_options">
+    |
+    <%= link_to "Movies", director_movies_path(@director) %>
+    |
+    <%= link_to "Posts", director_posts_path(@director) %>
+    |
+    <%= link_to "Projects", director_projects_path(@director) %>
+    |
+    
+    <% if @director.id != user.id %>
+        <% if user.director_friends.include?(@director)%>
+            <%= @director.email%>
+            |<br><br>
+        <% elsif user.has_left_friend_request?(@director) %>
+            <p>Friend Request Pending</p>
+            |
+        <% else %>
+            <%= form_with model: @friend, url: friends_path, local: true do |f| %>
+                <%= f.hidden_field :friender_id, :value => user.id %>
+                <%= f.hidden_field :friendee_id, :value => @director.id %>
+                <%= f.hidden_field :status, :value => "pending" %>
+                <%= f.submit "Send Friend Request"%>
+                
+            <% end %>|
+        <% end %>
+    <% end %>
+</div>
+<br>

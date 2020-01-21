@@ -1,0 +1,27 @@
+<h1>Search For Talent</h1>
+<div class="flex-container">
+<%= form_with url: crew_members_search_path, local: true, method: 'get' do |f| %> 
+    <%= f.text_field :search%>
+    <%= f.select :category, options_for_select(["Actors", "Writers"]) %>
+    <%= f.submit "Search" %>
+<% end %></div><br><br>
+<div class="flex-container">
+<% if params[:search] %>
+    <% if params[:category] == "Actors" %>
+        <% results_array = Api.get_actors_by_name(params[:search]) %>
+    <% elsif params[:category] == "Writers" %>
+        <% results_array = Api.get_writers_by_name(params[:search]) %>
+    <%end%>
+<% end %>
+<ul>
+<% if params[:category] == "Actors" || params[:category] == "Writers" %>  
+    <% results_array.each_with_index do |result, index| %> 
+    <%= form_with url: crew_member_path(result["id"]), method: :get, local: :true do |f| %>
+            <%= f.hidden_field :id, :value => result["id"] %>
+            <%= link_to result["name"], crew_member_path(result["id"]), id:"your_link"%> 
+    <% end %><br>
+    <% end %>
+<% end%></div>  
+  
+</ul>
+   

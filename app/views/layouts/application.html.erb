@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cinemake</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> 
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    
+    <% if session[:user] %>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">
+        <img src="/cinemake_icon.png" width="50" height="50" alt="">
+        </a>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <%=session[:user]["name"]%>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href=<%="/directors/#{session[:user]["id"]}"%>>My Profile</a>
+                <a class="dropdown-item" href="#">My Friends</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href=<%="/directors/#{session[:user]["id"]}/edit"%>>Edit Profile</a>
+                <a class="dropdown-item" href="/logout">Logout</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Movies
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href=<%="/directors/#{session[:user]["id"]}/movies"%>>My Movies</a>
+                  <a class="dropdown-item" href="#">All Movies</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/movies/new">Make New Movie</a>
+                </div>
+              </li>
+              <li class="nav-item dropdown" >
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" >
+                    Posts
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href=<%="/directors/#{session[:user]["id"]}/posts"%>>My Posts</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/posts/new">Write New Post</a>
+                  </div>
+                </li>
+              <li class="nav-item">
+                  <a class="nav-link" href=<%="/directors/#{session[:user]["id"]}/projects"%>>My Projects</a>
+                </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0" action='/search', method='get'>
+            <% if params["search"] && params["search"] != "" %>
+              <input class="form-control mr-sm-2" type="search" name="search" placeholder=<%=params[:search]%> aria-label="Search">
+            <% else %>
+              <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
+            <% end %>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
+      <% end %>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>
+
+

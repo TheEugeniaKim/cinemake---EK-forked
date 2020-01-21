@@ -1,0 +1,55 @@
+<h1><%= @project.name %></h1>
+
+<h3>Who do you want to add?</h3>
+<%= form_with url: new_project_crew_member_path, local: true, method: 'get' do |form| %> 
+    <%= form.select :category, options_for_select(["Directors", "Actors", "Writers"]) %>
+    <%= form.submit "Search" %>
+<% end %>
+
+<% if @project_crew_member.errors.any? %>
+    <ul><% @project_crew_member.errors.full_messages.each do |error| %>
+        <li><%= error %></li>
+    <% end %></ul>
+<% end %>
+
+<% if params[:category] %>
+<br>------------------------------------<br><br>
+    <% if params[:category] == "Directors" %>
+        <%= form_with model: @project_crew_member, url: project_crew_members_path, local: true, method: :post do |f| %>
+            <%= f.hidden_field :project_id, :value => @project.id %>
+            <%= f.collection_select :director_id, @project.movie.directors, :id, :name %><br><br>
+            <%= f.label :job, 'Job in Project: ' %><br>
+            <%= f.text_area :job %><br><br>
+            <%= f.submit "Add" %>
+        <% end %>
+    <% end %>
+
+    <% if params[:category] == "Actors" %>
+        <% if @project.movie.actors.any? %>
+            <%= form_with model: @project_crew_member, url: project_crew_members_path, local: true, method: :post do |f| %>
+                <%= f.hidden_field :project_id, :value => @project.id %>
+                <%= f.collection_select :crew_member_id, @project.movie.actors, :id, :name %><br><br>
+                <%= f.label :job, 'Job in Project: ' %><br>
+                <%= f.text_area :job %><br><br>
+                <%= f.submit "Add" %>
+            <% end %>
+        <% else %>
+            No actors associated with <%= @project.movie.name %>
+        <% end %>
+    <% end %>
+
+    <% if params[:category] == "Writers" %>
+        <% if @project.movie.writers.any? %>
+            <%= form_with model: @project_crew_member, url: project_crew_members_path, local: true, method: :post do |f| %>
+                <%= f.hidden_field :project_id, :value => @project.id %>
+                <%= f.collection_select :crew_member_id, @project.movie.writers, :id, :name %><br><br>
+                <%= f.label :job, 'Job in Project: ' %><br>
+                <%= f.text_area :job %><br><br>
+                <%= f.submit "Add" %>
+            <% end %>
+        <% else %>
+            No writers associated with <%= @project.movie.name%>
+        <% end %>
+    <% end %>
+<% end %>
+    
