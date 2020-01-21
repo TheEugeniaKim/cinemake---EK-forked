@@ -14,6 +14,8 @@ Currently the app looks like this:
 
 ![movie](cinemake_movie_show.png)
 
+![projects_calendar](cinemake.gif)
+
 However, going forward I would ask you to please ignore the erb view files as this app is going to be reworked with a new front end in the future. 
 
 ## Ongoing Plans for Cinemake 
